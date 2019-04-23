@@ -424,33 +424,34 @@ function stateFactory () {
 
 
 
+
+
         reversSortById: function(id) {
-
-            const sortList = personList.sort((a, b) => {
-                return b.id - a.id; 
-            })
-
-
             
+            // return personList.sort((first, second) => {
+            //      second - first; 
+            // })
 
-        // for (var i = 0; i < personList.length; i++)  {  
-        //     const sortList = personList.sort((person) => {
-        //         if (person.id[i] > person.id[i+1]) {
-        //             return 1;
-        //         }
-        //         if (person.id[i] < person.id[i+1]) {
-        //             return -1;
-        //         }
-        //         return 0;
-        //     })
-        // }
 
+
+            for (var i = 0; i < personList.length; i++)  {  
+                const sortList = personList.sort((person) => {
+                    if (person.id[i] > person.id[i+1]) {
+                        return 1;
+                    }
+                    if (person.id[i] < person.id[i+1]) {
+                        return -1;
+                    }
+                    return 0;
+                })
+                return sortList;
+            }
+        
         }
+
+
     }
 }
-
-
-
 
 
 

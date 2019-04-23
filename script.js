@@ -420,8 +420,6 @@ function stateFactory () {
         renderEditable: function() {
             render(renderPersonList(personList, renderEditablePerson))
         },
-
-
         
 
 
@@ -432,6 +430,8 @@ function stateFactory () {
                 return b.id - a.id; 
             })
 
+
+            
 
         // for (var i = 0; i < personList.length; i++)  {  
         //     const sortList = personList.sort((person) => {

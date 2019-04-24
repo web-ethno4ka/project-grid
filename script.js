@@ -139,6 +139,7 @@ function renderEditablePerson(person) {
     const idNumber = document.createElement("td");
     idNumber.appendChild(document.createTextNode(person.id));
 
+
     const firstName = document.createElement("td");
     const inputFirstName = document.createElement("input");
     inputFirstName.value = person.first_name;
@@ -268,8 +269,13 @@ function renderPersonList(persons, renderPerson) {
 
     // const tr = document.createElement("tr");
     const tdID = document.createElement("td");
+    tdID.addEventListener('click', () => {
+        console.log('click')
+        personsState.reverseSortById(persons);
+    });
     tdID.appendChild(document.createTextNode("ID"));
     thead.appendChild(tdID);
+
 
     const tdFirstName = document.createElement("td");
     tdFirstName.appendChild(document.createTextNode("First Name"));
@@ -420,42 +426,32 @@ function stateFactory () {
         renderEditable: function() {
             render(renderPersonList(personList, renderEditablePerson))
         },
-        
-
-
-
-
-
-        reversSortById: function(id) {
-            
-            // return personList.sort((first, second) => {
-            //      second - first; 
-            // })
-
-
-
-            for (var i = 0; i < personList.length; i++)  {  
-                const sortList = personList.sort((person) => {
-                    if (person.id[i] > person.id[i+1]) {
-                        return 1;
+        reverseSortById: function() {   
+            const sortList = personList.sort((first, second) => {
+                let flag = true;
+                    if (flag) { 
+                        console.log('1');
+                        if (first.id < second.id) {
+                            return -1;
+                        }
+                        if (first.id > second.id) {
+                            return 1;
+                        }
+                        return 0;
+                        flag = !flag;
+                    } 
+                    else {
+                        console.log('0');
+                        if(first.id && second.id) {
+                            return second.id - first.id;
+                        }
+                        flag = !flag;
                     }
-                    if (person.id[i] < person.id[i+1]) {
-                        return -1;
-                    }
-                    return 0;
-                })
-                return sortList;
-            }
-        
+                }) 
+            render(renderPersonList(sortList, renderPerson));  
         }
-
-
     }
 }
-
-
-
-
 
 let personsState = stateFactory();
 

@@ -370,6 +370,7 @@ function stateFactory () {
 
     //properties
     const personList = [];
+    const sorting = "asc";
 
     //methods
     return {
@@ -427,24 +428,28 @@ function stateFactory () {
             render(renderPersonList(personList, renderEditablePerson))
         },
         reverseSortById: function() {   
-            const sortList = personList.sort((first, second) => {
-                let flag = true;
-                    if (flag) { 
-                        console.log('1');
-                        {
-                            return first.id - second.id;
-                        }
-                        flag = false;
-                    } 
-                    else {
-                        console.log('0');
-                        {
-                            return second.id - first.id;
-                        }
-                        flag = true;
-                    }
-                }) 
-            render(renderPersonList(sortList, renderPerson));  
+            const byIdDescending = function (first, second){
+                if (first.id < second.id) {
+                    return 1;
+                }
+                if (first.id > second.id) {
+                    return -1;
+                }
+                return 0;
+            } 
+
+            const byIdAscending = function (first, second){
+                if (first.id < second.id) {
+                    return -1;
+                }
+                if (first.id > second.id) {
+                    return 1;
+                }
+                return 0;
+            }
+
+            const sortedList = personList.sort(byIdDescending);
+            render(renderPersonList(sortedList, renderPerson));  
         }
     }
 }

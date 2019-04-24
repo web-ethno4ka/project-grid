@@ -370,7 +370,7 @@ function stateFactory () {
 
     //properties
     const personList = [];
-    const sorting = "asc";
+    const sorting = function(first, second) { return 0; }
 
     //methods
     return {

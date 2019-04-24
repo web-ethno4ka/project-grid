@@ -431,21 +431,17 @@ function stateFactory () {
                 let flag = true;
                     if (flag) { 
                         console.log('1');
-                        if (first.id < second.id) {
-                            return -1;
+                        {
+                            return first.id - second.id;
                         }
-                        if (first.id > second.id) {
-                            return 1;
-                        }
-                        return 0;
-                        flag = !flag;
+                        flag = false;
                     } 
                     else {
                         console.log('0');
-                        if(first.id && second.id) {
+                        {
                             return second.id - first.id;
                         }
-                        flag = !flag;
+                        flag = true;
                     }
                 }) 
             render(renderPersonList(sortList, renderPerson));  

@@ -302,8 +302,20 @@ function renderPersonList(persons, renderPerson) {
     const disabled = document.createElement('div');
     enabled.classList.add('badge', 'badge-success');
     enabled.appendChild(document.createTextNode('Enabled'));
+
+    enabled.addEventListener('click', () => {
+        console.log('en-click');
+        personsState.enabledToggle(persons);
+    });
+
+
     disabled.classList.add('badge', 'badge-danger');
     disabled.appendChild(document.createTextNode('Disabled'));
+
+    disabled.addEventListener('click', () => {
+        console.log('dis-click');
+        personsState.disabledToggle(persons);
+    });
 
     status.appendChild(enabled);
     status.appendChild(disabled);
@@ -317,48 +329,6 @@ function renderPersonList(persons, renderPerson) {
     });
 
 
-    
-
-
-
-
-    var flag = 1;
-    enabled.addEventListener('click', () => {
-
-        if (flag === 1) {        
-            console.log('Click-1');
-            // personsState.renderEnabledList();
-            flag = 0;
-        }
-        else {
-            console.log('Click-2');
-            // personsState.setPersonList(persons);
-            flag = 1;
-        }
-    });
-
-
-    disabled.addEventListener('click', () => {
-
-        if (flag === 1) {        
-            console.log('disClick-1');
-            // personsState.renderDisabledList();
-            flag = 0;
-        }
-        else {
-            console.log('disClick-2');
-            // personsState.setPersonList(persons);
-            flag = 1;
-        }
-    });
-
-
-
-
-
-
-
-
     rows.forEach(function (row) {
         table.appendChild(row);
     });
@@ -370,6 +340,38 @@ function stateFactory () {
 
     //properties
     const personList = [];
+
+
+
+
+
+    const renderEnabledList = function() {
+        //creating the new array from personList, based on filter
+        const enabledPersonList = personList.filter(person => {
+            return person.enabled;
+        });
+        render(renderPersonList(enabledPersonList, renderPerson))
+    };
+
+    const renderDisabledList = function() {
+        //creating the new array from personList, based on filter
+        const disabledPersonList = personList.filter(person => {
+            return !person.enabled;
+        });
+        render(renderPersonList(disabledPersonList, renderPerson))
+    };
+
+    const defaultList = function() {
+        render(renderPersonList(personList, renderPerson));
+    };   
+
+    let initialValue = defaultList;
+
+
+
+
+
+
     const byIdDescending = function (first, second){
         if (first.id < second.id) {
         return 1;
@@ -432,24 +434,41 @@ function stateFactory () {
             });
             render(renderPersonList(personList, renderPerson));
         },
-
-        renderEnabledList: function() {
-            //creating the new array from personList, based on filter
-            const enabledPersonList = personList.filter(person => {
-                return person.enabled;
-            });
-            render(renderPersonList(enabledPersonList, renderPerson))
-        },
-        renderDisabledList: function() {
-            //creating the new array from personList, based on filter
-            const disabledPersonList = personList.filter(person => {
-                return !person.enabled;
-            });
-            render(renderPersonList(disabledPersonList, renderPerson))
-        },
         renderEditable: function() {
             render(renderPersonList(personList, renderEditablePerson))
         },
+
+
+
+
+        enabledToggle: function() {
+            render(renderPersonList(personList, renderPerson));
+            console.log('beroreIF');
+
+            if (initialValue === defaultList) {
+                console.log('if');
+                initialValue = renderEnabledList;
+            } else {
+                console.log('else');
+                initialValue = defaultList;
+            }
+        },
+        disabledToggle: function() {
+            render(renderPersonList(personList, renderPerson));
+            console.log('beroreIF2');
+
+            if (initialValue === defaultList) {
+                console.log('if2');
+                initialValue = renderDisabledList;
+            } else {
+                console.log('else2');
+                initialValue = defaultList;
+            }
+        },
+
+
+        
+
         sortById: function() {
 
             let sortedList = [...personList].sort(comparator);

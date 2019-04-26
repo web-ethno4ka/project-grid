@@ -271,7 +271,7 @@ function renderPersonList(persons, renderPerson) {
     const tdID = document.createElement("td");
     tdID.addEventListener('click', () => {
         console.log('click')
-        personsState.reverseSortById(persons);
+        personsState.sortById(persons);
     });
     tdID.appendChild(document.createTextNode("ID"));
     thead.appendChild(tdID);
@@ -370,7 +370,30 @@ function stateFactory () {
 
     //properties
     const personList = [];
-    const sorting = function(first, second) { return 0; }
+    const byIdDescending = function (first, second){
+        if (first.id < second.id) {
+        return 1;
+        }
+        if (first.id > second.id) {
+        return -1;
+        }
+        return 0;
+    };
+        
+    const byIdAscending = function (first, second){
+        if (first.id < second.id) {
+        return -1;
+        }
+        if (first.id > second.id) {
+        return 1;
+        }
+        return 0;
+    };
+        
+    const original = function(first, second) { return 0; };        
+        
+    //comparator that will be used by default
+    let comparator = byIdAscending;
 
     //methods
     return {
@@ -427,29 +450,18 @@ function stateFactory () {
         renderEditable: function() {
             render(renderPersonList(personList, renderEditablePerson))
         },
-        reverseSortById: function() {   
-            const byIdDescending = function (first, second){
-                if (first.id < second.id) {
-                    return 1;
-                }
-                if (first.id > second.id) {
-                    return -1;
-                }
-                return 0;
-            } 
+        sortById: function() {
 
-            const byIdAscending = function (first, second){
-                if (first.id < second.id) {
-                    return -1;
-                }
-                if (first.id > second.id) {
-                    return 1;
-                }
-                return 0;
+            let sortedList = [...personList].sort(comparator);
+            render(renderPersonList(sortedList, renderPerson));
+
+            if(comparator === byIdAscending) {
+                comparator = byIdDescending;
+            } else if (comparator === byIdDescending) {
+                comparator = original;
+            } else {
+                comparator = byIdAscending
             }
-
-            const sortedList = personList.sort(byIdDescending);
-            render(renderPersonList(sortedList, renderPerson));  
         }
     }
 }

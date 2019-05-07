@@ -345,27 +345,26 @@ function stateFactory () {
 
 
 
-    const renderEnabledList = function() {
-        //creating the new array from personList, based on filter
-        const enabledPersonList = personList.filter(person => {
-            return person.enabled;
-        });
-        render(renderPersonList(enabledPersonList, renderPerson))
+    //default filter, will return original list
+    const all = function() {
+        return true;
     };
 
-    const renderDisabledList = function() {
-        //creating the new array from personList, based on filter
-        const disabledPersonList = personList.filter(person => {
-            return !person.enabled;
-        });
-        render(renderPersonList(disabledPersonList, renderPerson))
+    //will return all enabled persons
+    const enabled = function(person) {
+        return person.enabled;
     };
 
-    const defaultList = function() {
-        render(renderPersonList(personList, renderPerson));
-    };   
+    //will return all disabled persons
+    const disabled = function (person) {
+        return !person.enabled;
+    };
 
-    let initialValue = defaultList;
+    //CURRENT filter for enableToggle
+    let currentEnabledHandler = enabled; //all or enabled
+
+    //CURRENT filter for disableToggle
+    let currentDisabledHandler = disabled; //all or disabled
 
 
 
@@ -440,32 +439,32 @@ function stateFactory () {
 
 
 
+        enabledToggle: function () {
+            //creating the new array from personList, based on filter
+            const filteredList = personList.filter(currentEnabledHandler);
 
-        enabledToggle: function() {
-            render(renderPersonList(personList, renderPerson));
-            console.log('beroreIF');
+            render(renderPersonList(filteredList, renderPerson));
 
-            if (initialValue === defaultList) {
-                console.log('if');
-                initialValue = renderEnabledList;
-            } else {
-                console.log('else');
-                initialValue = defaultList;
+            if(currentEnabledHandler === enabled) {
+                currentEnabledHandler = all;
+                currentDisabledHandler = disabled;
+            } else if(currentEnabledHandler === all) {
+                currentEnabledHandler = enabled;
             }
         },
-        disabledToggle: function() {
-            render(renderPersonList(personList, renderPerson));
-            console.log('beroreIF2');
+        disabledToggle: function () {
+            //creating the new array from personList, based on filter
+            const filteredList = personList.filter(currentDisabledHandler);
 
-            if (initialValue === defaultList) {
-                console.log('if2');
-                initialValue = renderDisabledList;
-            } else {
-                console.log('else2');
-                initialValue = defaultList;
+            render(renderPersonList(filteredList, renderPerson));
+
+            if(currentDisabledHandler === disabled) {
+                currentDisabledHandler = all;
+                currentEnabledHandler = enabled;
+            } else if (currentDisabledHandler === all){
+                currentDisabledHandler = disabled;
             }
         },
-
 
         
 

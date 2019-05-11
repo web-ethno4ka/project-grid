@@ -477,8 +477,8 @@ function stateFactory () {
         pagination: function (persons, page, resPerPage) {
             const start = (page - 1) * resPerPage;
             const end = page * resPerPage;
-            let res = personList.slice(start, end);
-            render(renderPersonList(res, renderPerson));
+            let resPage = personList.slice(start, end);
+            render(renderPersonList(resPage, renderPerson));
         }
     }
 }

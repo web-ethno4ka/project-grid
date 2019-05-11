@@ -367,10 +367,6 @@ function stateFactory () {
     let currentDisabledHandler = disabled; //all or disabled
 
 
-
-
-
-
     const byIdDescending = function (first, second){
         if (first.id < second.id) {
         return 1;
@@ -437,8 +433,6 @@ function stateFactory () {
             render(renderPersonList(personList, renderEditablePerson))
         },
 
-
-
         enabledToggle: function () {
             //creating the new array from personList, based on filter
             const filteredList = personList.filter(currentEnabledHandler);
@@ -464,9 +458,7 @@ function stateFactory () {
             } else if (currentDisabledHandler === all){
                 currentDisabledHandler = disabled;
             }
-        },
-
-        
+        },        
 
         sortById: function() {
 
@@ -480,6 +472,13 @@ function stateFactory () {
             } else {
                 comparator = byIdAscending
             }
+        },
+
+        pagination: function (persons, page, resPerPage) {
+            const start = (page - 1) * resPerPage;
+            const end = page * resPerPage;
+            let res = personList.slice(start, end);
+            render(renderPersonList(res, renderPerson));
         }
     }
 }

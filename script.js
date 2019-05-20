@@ -344,6 +344,8 @@ function stateFactory () {
     let perPage = 10;
 
     let pageCount;
+    
+    let list = personList;
 
 
     //default filter, will return original list
@@ -406,7 +408,7 @@ function stateFactory () {
                 personList.push(person)
             });
 
-            // pageCount = Math.ceil(list.length/perPage);
+            pageCount = Math.ceil(list.length/perPage);
             //renderPerson is name of function
             render(renderPersonList(personList, renderPerson)); //append to #app, rendered person list. For each person use closure/callback renderPerson
         },

@@ -304,7 +304,6 @@ function renderPersonList(persons, renderPerson) {
     enabled.appendChild(document.createTextNode('Enabled'));
 
     enabled.addEventListener('click', () => {
-        console.log('en-click');
         personsState.enabledToggle(persons);
     });
 
@@ -313,7 +312,6 @@ function renderPersonList(persons, renderPerson) {
     disabled.appendChild(document.createTextNode('Disabled'));
 
     disabled.addEventListener('click', () => {
-        console.log('dis-click');
         personsState.disabledToggle(persons);
     });
 
@@ -341,8 +339,11 @@ function stateFactory () {
     //properties
     const personList = [];
 
+    let page = 1;
 
+    let perPage = 10;
 
+    let pageCount;
 
 
     //default filter, will return original list
@@ -404,6 +405,8 @@ function stateFactory () {
                 // });
                 personList.push(person)
             });
+
+            // pageCount = Math.ceil(list.length/perPage);
             //renderPerson is name of function
             render(renderPersonList(personList, renderPerson)); //append to #app, rendered person list. For each person use closure/callback renderPerson
         },
@@ -474,12 +477,31 @@ function stateFactory () {
             }
         },
 
-        pagination: function (persons, page, resPerPage) {
+        paginate: function() {
+            console.log(page);
+            this.pagination(page, perPage);
+        },
+        pagination: function (page, resPerPage) {
             const start = (page - 1) * resPerPage;
             const end = page * resPerPage;
-            let resPage = personList.slice(start, end);
-            render(renderPersonList(resPage, renderPerson));
+            list = personList.slice(start, end);
+            render(renderPersonList(list, renderPerson));
+        },
+
+        next: function() {
+            console.log(pageCount);
+            if (page < pageCount) {
+                page += 1;
+            }
+            this.paginate();
+        },
+        previous: function() {
+            if (page > 1) {
+                page--;
+            }
+            this.paginate();
         }
+
     }
 }
 

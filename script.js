@@ -344,6 +344,8 @@ function stateFactory () {
     let perPage = 10;
 
     let pageCount;
+
+    let button;
     
     let list = personList;
 
@@ -479,10 +481,29 @@ function stateFactory () {
             }
         },
 
+
+        createPageButton: function(page, pageCount, type) {
+          `<div>
+            <ul class="pagination">
+              <li class="page-item ${page <= 1 ? 'disabled' : 'active'}">
+                <a class="page-link" href="#">&laquo;</a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="#">Page ${type === 'prev' ? page - 1 : page + 1}</a>
+              </li>
+              <li class="page-item ${page < pageCount ? 'active' : 'disabled'}">
+                <a class="page-link" href="#">&raquo;</a>
+              </li>
+            </ul>
+          </div>`
+        },
+
+
         paginate: function() {
             console.log(page);
             this.pagination(page, perPage);
         },
+
         pagination: function (page, resPerPage) {
             const start = (page - 1) * resPerPage;
             const end = page * resPerPage;
@@ -497,6 +518,7 @@ function stateFactory () {
             }
             this.paginate();
         },
+
         previous: function() {
             if (page > 1) {
                 page--;

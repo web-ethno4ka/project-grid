@@ -334,6 +334,41 @@ function renderPersonList(persons, renderPerson) {
     return table;
 }
 
+
+
+
+
+
+function renderPagination() {
+    const paginationContainer = document.createElement('ul');
+    const leftArrowButton = document.createElement('li');
+    const paginationButton = document.createElement('li');
+    const rightArrowButton = document.createElement('li');
+    const leftArrow = document.createElement('a');
+    leftArrow.innerHTML = "&laquo;";
+    const paginationNumber = document.createElement('a');
+    paginationNumber.innerHTML = "1";
+    const rightArrow = document.createElement('a');
+    rightArrow.innerHTML = "&raquo;";
+
+    paginationContainer.classList.add('pagination');
+    leftArrowButton.classList.add('page-item', 'disabled');
+    leftArrow.classList.add('page-link');
+    paginationButton.classList.add('page-item', 'active');
+    paginationNumber.classList.add('page-link');
+    rightArrowButton.classList.add('page-item');
+    rightArrow.classList.add('page-link'); 
+    
+    leftArrowButton.appendChild(leftArrow);
+    paginationButton.appendChild(paginationNumber);
+    rightArrowButton.appendChild(rightArrow);
+}
+
+
+
+
+
+
 function stateFactory () {
 
     //properties
@@ -482,21 +517,21 @@ function stateFactory () {
         },
 
 
-        createPageButton: function(page, pageCount, type) {
-          `<div>
-            <ul class="pagination">
-              <li class="page-item ${page <= 1 ? 'disabled' : 'active'}">
-                <a class="page-link" href="#">&laquo;</a>
-              </li>
-              <li class="page-item active">
-                <a class="page-link" href="#">Page ${type === 'prev' ? page - 1 : page + 1}</a>
-              </li>
-              <li class="page-item ${page < pageCount ? 'active' : 'disabled'}">
-                <a class="page-link" href="#">&raquo;</a>
-              </li>
-            </ul>
-          </div>`
-        },
+        // createPageButton: function(page, pageCount, type) {
+        //   `<div>
+        //     <ul class="pagination">
+        //       <li class="page-item ${page <= 1 ? 'disabled' : 'active'}">
+        //         <a class="page-link" href="#">&laquo;</a>
+        //       </li>
+        //       <li class="page-item active">
+        //         <a class="page-link" href="#">Page ${type === 'prev' ? page - 1 : page + 1}</a>
+        //       </li>
+        //       <li class="page-item ${page < pageCount ? 'active' : 'disabled'}">
+        //         <a class="page-link" href="#">&raquo;</a>
+        //       </li>
+        //     </ul>
+        //   </div>`
+        // },
 
 
         paginate: function() {

@@ -19,9 +19,10 @@
 function render(list) {
     const app = document.getElementById('app');
     while (app.hasChildNodes()) {
-        app.removeChild(app.firstChild);
+        app.removeChild(app.firstChild);        
     }
-    app.appendChild(list)
+    app.appendChild(list);
+    app.appendChild(renderPagination());
 }
 // const table = document.getElementById('table-data');
 // document.getElementById('generate-btn').addEventListener('click', createTable);
@@ -336,9 +337,6 @@ function renderPersonList(persons, renderPerson) {
 
 
 
-
-
-
 function renderPagination() {
     const paginationContainer = document.createElement('ul');
     const leftArrowButton = document.createElement('li');
@@ -362,10 +360,13 @@ function renderPagination() {
     leftArrowButton.appendChild(leftArrow);
     paginationButton.appendChild(paginationNumber);
     rightArrowButton.appendChild(rightArrow);
+
+    paginationContainer.appendChild(leftArrowButton);
+    paginationContainer.appendChild(paginationButton);
+    paginationContainer.appendChild(rightArrow);
+
+    return paginationContainer;
 }
-
-
-
 
 
 
@@ -379,8 +380,6 @@ function stateFactory () {
     let perPage = 10;
 
     let pageCount;
-
-    let button;
     
     let list = personList;
 
@@ -515,23 +514,6 @@ function stateFactory () {
                 comparator = byIdAscending
             }
         },
-
-
-        // createPageButton: function(page, pageCount, type) {
-        //   `<div>
-        //     <ul class="pagination">
-        //       <li class="page-item ${page <= 1 ? 'disabled' : 'active'}">
-        //         <a class="page-link" href="#">&laquo;</a>
-        //       </li>
-        //       <li class="page-item active">
-        //         <a class="page-link" href="#">Page ${type === 'prev' ? page - 1 : page + 1}</a>
-        //       </li>
-        //       <li class="page-item ${page < pageCount ? 'active' : 'disabled'}">
-        //         <a class="page-link" href="#">&raquo;</a>
-        //       </li>
-        //     </ul>
-        //   </div>`
-        // },
 
 
         paginate: function() {
